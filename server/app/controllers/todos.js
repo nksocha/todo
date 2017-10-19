@@ -2,8 +2,8 @@
 var express = require('express'),
 router = express.Router(),
 logger = require('../../config/logger'),
-mongoose = require('mongoose')
-todo = mongoose.model('todo')
+mongoose = require('mongoose'),
+todo = mongoose.model('Todo')
 ;
 
 
@@ -20,7 +20,7 @@ router.route('/users').get(function(req, res, next){
                 if(result && result.length) {
                 res.status(200).json(result);
             } else {
-                res.status(404).json({message: 'No users'});
+                res.status(404).json({message: 'No users'}); 
             }
     })
     .catch(err => {

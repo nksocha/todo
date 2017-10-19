@@ -4,11 +4,11 @@ var express = require('express'),
     logger = require('../../config/logger'),
     mongoose = require('mongoose')
     User = mongoose.model('User')
-;
+
 
 
 module.exports = function (app, config) {
-	app.use('/api', router);
+	app.use('/api', router); 
 
     router.route('/users').get(function(req, res, next){
 		logger.log('Get all users', 'verbose');

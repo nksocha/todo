@@ -9,6 +9,7 @@
   "author": "Nicole Socha",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "express": "^4.15.5",
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.1.0",

@@ -16,12 +16,18 @@ module.exports = function (app, config) {
   });
 
 //This tells mongoose to write things to mongo
-  mongoose.set('debug', true);
-	mongoose.connection.once('open', function callback() {
-		logger.log("Mongoose connected to the database");
-	});
+if(process.env.NODE_ENV !== 'test') {
+	app.use(morgan('dev'));
 
-
+    mongoose.set('debug', true);
+    mongoose.connection.once('open', function callback() {
+      logger.log("Mongoose connected to the database");
+    });
+    app.use(function (req, res, next) {
+    logger.log('Request from ' + req.connection.remoteAddress, 'info');
+    next();
+    });
+}
   app.use(morgan('dev'));
   
 
