@@ -17,11 +17,12 @@ console.log('Run')
       res.send('404 Not Found');
     });
   
+    //This will work when the server is not working correctly
     app.use(function (err, req, res, next) {
       console.error(err.stack);
       res.type('text/plan');
       res.status(500);
-      res.send('500 Sever Error');
+      res.send('500 Server Error');
     });
      
   };
