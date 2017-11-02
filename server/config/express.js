@@ -1,12 +1,15 @@
 var express = require('express');
 var morgan = require('morgan');
 var logger = require('./logger');
+var bodyParser = require("body-parser");
 var mongoose = require('mongoose');
 var bluebird = require('bluebird');
 var glob = require('glob');
+var cors = require('cors');
 
 
 module.exports = function (app, config) {
+  app.use(cors({origin: 'http://localhost:9000'}));
   logger.log("Loading Mongoose functionality");
   mongoose.Promise = require('bluebird');
   mongoose.connect(config.db, {useMongoClient: true});
@@ -35,6 +38,11 @@ if(process.env.NODE_ENV !== 'test') {
     console.log('Request from ' + req.connection.remoteAddress);
     next();
   });  
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
   var models = glob.sync(config.root + '/app/models/*.js');
   models.forEach(function (model) {
