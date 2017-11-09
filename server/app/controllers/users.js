@@ -4,11 +4,17 @@ var express = require('express'),
     logger = require('../../config/logger'),
     mongoose = require('mongoose')
     User = mongoose.model('User')
-
+    passportService = require('../../config/passport'),
+    passport = require('passport')
+    
+var requireLogin = passport.authenticate('local', { session: false });
+    
 
 
 module.exports = function (app, config) {
 	app.use('/api', router); 
+
+    router.route('/users/login').post(requireLogin, login);
 
     router.route('/users').get(function(req, res, next){
 		logger.log('Get all users', 'verbose');
@@ -86,15 +92,37 @@ module.exports = function (app, config) {
                     return next(error);
                 });
         });
-        
+    router.put('/users/password/:userId', function(req, res, next){
+	logger.log('Update user ' + req.params.userId, 'verbose');
+
+	User.findById(req.params.userId)
+		.exec()
+		.then(function (user) {
+			if (req.body.password !== undefined) {
+				user.password = req.body.password;
+			}
+
+			user.save()
+				.then(function (user) {
+					res.status(200).json(user);
+				})
+				.catch(function (err) {
+					return next(err);
+				});
+		})
+		.catch(function (err) {
+			return next(err);
+		});
+});
     
-    router.post('/login', function(req, res, next){
-        logger.log(req.body);
-        var email = req.body.email
-        var password = req.body.password;
+    
+   // router.post('/login', function(req, res, next){
+  //      logger.log(req.body);
+   //     var email = req.body.email
+   //     var password = req.body.password;
   
-        var obj = {'email' : email, 'password' : password};
-      res.status(201).json(obj);
-  });
+   //     var obj = {'email' : email, 'password' : password};
+  //    res.status(201).json(obj);
+//  });
   
 };
