@@ -1,4 +1,3 @@
-
 var express = require('express'),
     router = express.Router(),
     logger = require('../../config/logger'),
@@ -6,9 +5,9 @@ var express = require('express'),
     User = mongoose.model('User')
     passportService = require('../../config/passport'),
     passport = require('passport')
-    
+   
 var requireLogin = passport.authenticate('local', { session: false });
-    
+var requireAuth = passport.authenticate('jwt', { session: false });   
 
 
 module.exports = function (app, config) {
@@ -16,7 +15,7 @@ module.exports = function (app, config) {
 
     router.route('/users/login').post(requireLogin, login);
 
-    router.route('/users').get(function(req, res, next){
+    router.route('/users').get(requireAuth,function(req, res, next){
 		logger.log('Get all users', 'verbose');
         
         var query = User.find()

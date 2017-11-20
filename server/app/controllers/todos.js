@@ -1,16 +1,19 @@
-
 var express = require('express'),
-router = express.Router(),
-logger = require('../../config/logger'),
-mongoose = require('mongoose'),
-Todo = mongoose.model('Todo')
-;
+    router = express.Router(),
+    logger = require('../../config/logger'),
+    mongoose = require('mongoose'),
+    Todo = mongoose.model('Todo'),
+    passportService = require('../../config/passport'),
+    passport = require ('passport')
 
+
+var requireLogin = passport.authenticate('local', { session: false });
+var requireAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = function (app, config) {
 app.use('/api', router);
 
-router.route('/todos').get(function(req, res, next){
+router.route('/todos').get(requireAuth,function(req, res, next){
     logger.log('Get all todos', 'verbose');
     
     var query = todo.find()
