@@ -33,7 +33,7 @@ module.exports = function (app, config) {
         });
     })
 
-    router.route('/users/userId').get(function(req, res, next){
+    router.route('/users/userId').get(requireAuth,function(req, res, next){
 		logger.log('Get user' + req.params.userId, 'verbose');
          
          User.findById(req.params.userId)
@@ -49,7 +49,7 @@ module.exports = function (app, config) {
                     });
             }); 
         
-    router.route('/users').post(function(req, res, next){
+    router.route('/users').post(requireAuth,function(req, res, next){
 		logger.log('Create user', 'verbose');
    console.log(req.body)   
         var user = new User(req.body);
@@ -62,7 +62,7 @@ module.exports = function (app, config) {
             });
       })
   
-    router.route('/users/:userId').put(function(req, res, next){
+    router.route('/users/:userId').put(requireAuth,function(req, res, next){
 		logger.log('Update user', 'verbose');
         
         User.findOneAndUpdate({_id: req.params.userId}, 		
@@ -75,12 +75,12 @@ module.exports = function (app, config) {
                 });
         });
 
-    router.route('/users/password/userId').put(function(req, res, next){
+    router.route('/users/password/userId').put(requireAuth,function(req, res, next){
 		logger.log('Update user password' + req.params.userId, 'verbose');
         res.status(200).json({message: "Update user password" + req.params.userId});
     });
     
-    router.route('/users/:userId').delete(function(req, res, next){
+    router.route('/users/:userId').delete(requireAuth,function(req, res, next){
 		logger.log('Delete user', 'verbose');
         
         User.remove({ _id: req.params.userId })
@@ -91,7 +91,7 @@ module.exports = function (app, config) {
                     return next(error);
                 });
         });
-    router.put('/users/password/:userId', function(req, res, next){
+    router.put('/users/password/:userId',requireAuth, function(req, res, next){
 	logger.log('Update user ' + req.params.userId, 'verbose');
 
 	User.findById(req.params.userId)

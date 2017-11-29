@@ -39,9 +39,9 @@ export class Home {
     login() {
       return this.auth.login(this.email, this.password)
         .then(response => {
-    sessionStorage.setItem("user", JSON.stringify(response.user));
-    this.loginError = "";
-    this.router.navigate('list');
+          sessionStorage.setItem("user", JSON.stringify(response.user));
+          this.loginError = "";
+          this.router.navigate('list');
         })
         .catch(error => {
           console.log(error);

@@ -31,7 +31,7 @@ router.route('/todos').get(requireAuth,function(req, res, next){
     });
 })
 
-router.route('/todos/todo').get(function(req, res, next){
+router.route('/todos/todo').get(requireAuth,function(req, res, next){
     logger.log('Get todo' + req.params.Todo, 'verbose');
      
      Todo.findById(req.params.Todo)
@@ -47,7 +47,7 @@ router.route('/todos/todo').get(function(req, res, next){
                 });
         }); 
     
-router.route('/todos').post(function(req, res, next){
+router.route('/todos').post(requireAuth,function(req, res, next){
     logger.log('Create todo', 'verbose');
   
     var todo = new Todo(req.body);
@@ -60,7 +60,7 @@ router.route('/todos').post(function(req, res, next){
         });
   })
 
-router.route('/todos/todo').put(function(req, res, next){
+router.route('/todos/todo').put(requireAuth,function(req, res, next){
     logger.log('Update todo', 'verbose');
     
     Todo.findOneAndUpdate({_id: req.params.todo}, 		
@@ -74,7 +74,7 @@ router.route('/todos/todo').put(function(req, res, next){
     });
 
 
-router.route('/todos/todo').delete(function(req, res, next){
+router.route('/todos/todo').delete(requireAuth,function(req, res, next){
     logger.log('Delete todo', 'verbose');
     
     Todo.remove({ _id: req.params.todo })
