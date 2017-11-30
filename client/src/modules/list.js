@@ -27,7 +27,7 @@ export class List {
 			todo: "",
 			description: "",
 			dateDue: new Date(),
-			 userId: this.user._id,
+			 userid: this.user._id,
 			priority: this.priorities[0]
 		}
 		this.showList = false;		
@@ -55,8 +55,8 @@ export class List {
 		}
 	}
 
-	    deleteTodo(todo){
-			this.todos.deleteTodo(todo._id);
+    deleteTodo(todo){
+		this.todos.deleteTodo(todo._id);
 	}
 
 	

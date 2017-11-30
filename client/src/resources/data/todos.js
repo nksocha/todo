@@ -7,11 +7,11 @@ export class ToDos {
 
     constructor(data) {
         this.data = data;
-        this.TODO_SERVICE = 'todos';
+        this.TODOS_SERVICE = 'todos';
        this.todosArray = [];
 }
 async getUserTodos(id){
-    let response = await this.data.get(this.TODO_SERVICE + "/user/" + id);
+    let response = await this.data.get(this.TODOS_SERVICE + "/user/" + id);
     if(!response.error && !response.message){
         this.todosArray = response;
     }
@@ -41,7 +41,7 @@ async uploadFile(files, userId, todoId){
                 formData.append("file" + index, item);
             });
         
-        let response = await this.data.uploadFiles(formData, this.TODO_SERVICE + "/upload/" + userId + "/" + todoId);
+        let response = await this.data.uploadFiles(formData, this.TODOS_SERVICE + "/upload/" + userId + "/" + todoId);
         return response;
     }
     

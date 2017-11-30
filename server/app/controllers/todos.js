@@ -53,7 +53,7 @@ router.route('/todos').post(requireAuth,function(req, res, next){
     logger.log('Create todo', 'verbose');
   
     var todo = new Todo(req.body);
-        Todo.save()
+        todo.save()
             .then(result => {
                 res.status(201).json(result);
             })
