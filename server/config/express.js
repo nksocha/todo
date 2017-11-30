@@ -39,10 +39,10 @@ if(process.env.NODE_ENV !== 'test') {
     next();
   });  
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
+  app.use(bodyParser.json({limit: '1000mb'}));
+  app.use(bodyParser.urlencoded({limit: '1000mb', extended: true
 }));
+  
 
   var models = glob.sync(config.root + '/app/models/*.js');
   models.forEach(function (model) {

@@ -13,7 +13,9 @@ export class List {
           this.loginError = '';
           this.user = JSON.parse(sessionStorage.getItem('user'));
           this.showList = true;
-         this.priorities=['Low', 'Medium', 'High', 'Critical']
+		 this.priorities=['Low', 'Medium', 'High', 'Critical']
+		 this.showCompleted = false;
+		 
       
   }
   async activate(){
@@ -29,7 +31,13 @@ export class List {
 			priority: this.priorities[0]
 		}
 		this.showList = false;		
-  }
+  	}
+
+    editTodo(todo){
+		this.todoObj = todo;
+		this. showList = false;
+	}
+	
   
   async saveTodo(){
 		if(this.todoObj){		
@@ -37,12 +45,39 @@ export class List {
 			if(response.error){
 				alert("There was an error creating the ToDo");
 			} else {
-				//Could provide feeback									
+				var todoId = response._id;
+	                if(this.filesToUpload && this.filesToUpload.length){
+	                    await this.todos.uploadFile(this.filesToUpload, this.user._id, todoId);
+	                    this.filesToUpload = [];
+	                }											
 			}
 			this.showList = true;
 		}
 	}
 
+	    deleteTodo(todo){
+			this.todos.deleteTodo(todo._id);
+	}
+
+	
+	completeTodo(todo){
+		    todo.completed = !todo.completed;
+		    this.todoObj = todo;
+		    this.saveTodo();
+	}
+	
+	toggleShowCompleted(){
+		    this.showCompleted = !this.showCompleted;
+		}
+	
+	changeFiles(){
+		    this.filesToUpload = new Array(); 
+		    this.filesToUpload.push(this.files[0]);
+	}
+	removeFile(index){
+	    this.filesToUpload.splice(index,1);
+	}
+					
 
   logout(){
     sessionStorage.removeItem('user');
