@@ -8,11 +8,11 @@ import {ToDos} from '../resources/data/todos';
 export class List {
   constructor(todos, auth) {
 	this.todos = todos;
-          this.message = 'List';
-          this.auth = auth;
-          this.loginError = '';
-          this.user = JSON.parse(sessionStorage.getItem('user'));
-          this.showList = true;
+         this.message = 'List';
+         this.auth = auth;
+         this.loginError = '';
+         this.user = JSON.parse(sessionStorage.getItem('user'));
+         this.showList = true;
 		 this.priorities=['Low', 'Medium', 'High', 'Critical']
 		 this.showCompleted = false;
 		 
@@ -27,7 +27,7 @@ export class List {
 			todo: "",
 			description: "",
 			dateDue: new Date(),
-			 userid: this.user._id,
+			userid: this.user._id,
 			priority: this.priorities[0]
 		}
 		this.showList = false;		

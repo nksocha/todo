@@ -4,7 +4,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Todo = mongoose.model('Todo'),
     passportService = require('../../config/passport'),
-    passport = require ('passport')
+    passport = require ('passport'),
     multer = require('multer'),
     mkdirp = require('mkdirp');
     
@@ -14,6 +14,19 @@ var requireAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = function (app, config) {
 app.use('/api', router);
+
+router.get('/todos/user/:userId', function(req, res, next){
+    logger.log('Get all todos for ' + req.params.userId, 'verbose');
+
+    Todo.find({user: req.params.userId})
+                .then(todos => {
+                            if(todos){
+                                        res.status(200).json(todos);
+                            } else {
+                                        return next(error);
+                            }
+                });
+});
 
 router.route('/todos').get(requireAuth,function(req, res, next){
     logger.log('Get all todos', 'verbose');

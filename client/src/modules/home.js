@@ -22,7 +22,6 @@ export class Home {
         lastName: "",
         email: "",
         password: ""
-
         }
     this.registerError = "";       
 	this.showLogin = false;
