@@ -69,5 +69,6 @@ setUserInfo = function(req){
   });
   
   passport.use(jwtLogin); 
+  passport.use(localLogin);
   
   
